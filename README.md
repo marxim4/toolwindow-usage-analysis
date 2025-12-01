@@ -28,18 +28,84 @@ The dataset included events like:
 
 The analysis required:
 
-- Cleaning messy real-world logs
-- Reconstructing tool window open/close intervals
-- Computing durations
-- Comparing manual vs auto opens
-- Testing whether differences are statistically significant
-- Producing summary statistics and visualizations
-- Writing a short analysis summary
+- Cleaning messy real-world logs  
+- Reconstructing tool window open/close intervals  
+- Computing durations  
+- Comparing manual vs auto opens  
+- Testing whether differences are statistically significant  
+- Producing summary statistics and visualizations  
+- Writing a short analysis summary  
 
 <details>
 <summary><strong>Click to view the full task description</strong></summary>
 
-(Insert your long task text here exactly as provided.)
+Description  
+Work with real IDE usage data (from PyCharm and other JetBrains IDEs) to identify what actually helps developers and what gets in their way. You'll define clear metrics, run analyses, and validate changes that make developers faster and the UI less distracting.
+
+**Example projects:**
+
+Quantify the impact of Python type checkers  
+Python doesn’t have strict static typing. In PyCharm we show type-related problems before you run code. Do these checks actually help?
+
+Understand whether pre-run type checks help reduce common runtime errors and speed up the feedback loop, so we can decide how much to invest in them.
+
+**Outcomes to examine:**
+
+- Runtime TypeError/AttributeError per runs/tests  
+- Time and attempts to reach "all tests green"  
+- Navigation and code completion efficiency (e.g., jumps to definition per hour, completion acceptance rate)
+
+**What you’ll do:**
+
+- Define metrics for how much typing/checking is used in a project or session  
+- Define analysis sessions (e.g., from first failing test to all tests passing, or one debug/run cycle)  
+- Compare results across projects and before/after enabling type checks
+
+---
+
+### Measure UI element clutter and usefulness
+
+Goal: Our IDEs have many buttons, panels, and tool windows. Some are very helpful, others take space but add little. We want the UI to feel lighter without hurting power users.
+
+Identify low-value, high-space elements and propose better defaults, placement, or removal.
+
+**Outcomes to examine:**
+
+- "Good” vs “bad” clicks (rage, dead, bounce)
+- Passive value (panels rarely clicked but useful to glance at)
+- Placement (first screenful visibility, top-of-menu spots)
+- Friction (open–close–open loops, repeated searches for the same command, long time-to-command)
+
+**What you’ll do:**
+
+- Create usefulness/cost/friction scores  
+- Rank candidates for hide/reposition/remove  
+- Estimate “position lift”  
+- Optionally validate with A/B tests
+
+**Requirements:**  
+Python, SQL, Statistics
+
+---
+
+### Task #1 — Analyze Toolwindow Usage Data
+
+Each row contains:
+
+- user_id  
+- timestamp  
+- event_id (`open` / `close`)  
+- open_type (`manual` / `auto` for opens only)
+
+Data is messy: orphan closes, repeated opens, missing closes, etc.
+
+**Objective**
+
+- Match open/close event pairs  
+- Reconstruct complete toolwindow “episodes”  
+- Calculate duration  
+- Compare manual vs auto durations  
+- Determine statistical significance
 
 </details>
 
@@ -48,15 +114,15 @@ The analysis required:
 ## What This Repository Contains
 
 - **A clean Python analysis pipeline** (`main.py`)
-- **Interval reconstruction logic** with:
-    - Orphan close handling
-    - Multiple-open implicit closures
-    - Right-censored intervals
+- **Interval reconstruction logic**, handling:
+  - Orphan closes  
+  - Implicit closes (multiple opens in a row)  
+  - Right-censored intervals  
 - **Duration statistics per open_type**
-- **Formal statistical test** (Welch t-test on log durations)
-- **Transition analysis** (what gets opened after an implicit close)
+- **Welch t-test** on log durations (statistical significance)
+- **Transition analysis** (what users open after an implicit close)
 - **Visualizations** (saved as PNGs)
-- **Synthetic example CSV** (optional)
+- **Optional synthetic example CSV**
 
 The real JetBrains dataset is **not included**, but the code and example data
 allow the full pipeline to be run.
@@ -65,18 +131,18 @@ allow the full pipeline to be run.
 
 ## Improvements Made After Feedback
 
-JetBrains provided helpful feedback:
+JetBrains provided helpful and constructive feedback:
 
 > *“Your analysis showed solid data handling and clear reasoning.  
 > For future analytics work, consider including statistical tests to formally assess differences.”*
 
-This version adds:
+This improved version adds:
 
-- ✔ **Welch’s t-test** on log-transformed durations
-- ✔ Effect-size estimation (auto/manual duration ratio)
-- ✔ Clearer interval logic docstrings
-- ✔ More polished visualizations
-- ✔ Readme documentation + task summary
+- ✔ Welch’s t-test on log-transformed durations  
+- ✔ Effect-size estimation (auto/manual ratio)  
+- ✔ Clearer interval reconstruction docstrings  
+- ✔ Polished visualizations  
+- ✔ Expanded README with task summary and findings  
 
 ---
 
@@ -84,8 +150,8 @@ This version adds:
 
 ### Completed Intervals
 
-- **Auto opens:** 1,180
-- **Manual opens:** 651
+- **Auto opens:** 1,180  
+- **Manual opens:** 651  
 
 ### Duration Comparison
 
@@ -98,33 +164,29 @@ This version adds:
 ### Statistical Significance
 
 - Welch t-test on log durations:  
-  **t ≈ 19.33, p ≈ 1.2 × 10⁻⁷³**
+  **t ≈ 19.33, p ≈ 1.2 × 10⁻⁷³**  
 - Estimated mean ratio:  
   **Auto durations ≈ 16× longer than manual**
 
 ➡ **Conclusion:**  
-Auto-opened tool windows stay open **dramatically longer**, with a highly statistically significant difference.
+Auto-opened tool windows remain open **dramatically longer**, and the difference is **highly statistically significant**.
 
 ---
 
 ## Visualizations
 
-These plots were generated by the real dataset and saved in the repo:
+These plots were generated by the analysis:
 
 ### 1. Count of Completed Intervals
-
 ![counts](plot_counts_by_open_type.png)
 
 ### 2. ECDF of Durations
-
 ![ecdf](plot_ecdf_log_seconds.png)
 
 ### 3. Histogram (log-scale)
-
 ![hist](plot_hist_log_seconds.png)
 
 ### 4. Log-scale Boxplot
-
 ![boxplot](plot_boxplot_log_seconds.png)
 
 ---
@@ -134,8 +196,7 @@ These plots were generated by the real dataset and saved in the repo:
 ### Requirements
 
 - Python 3.9+
-- Install dependencies from `requirements.txt`:
+- Install dependencies:
 
 ```bash
 pip install -r requirements.txt
-
