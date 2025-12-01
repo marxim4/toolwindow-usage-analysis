@@ -204,7 +204,7 @@ If expanded into production research, next steps would include:
 
 This project includes enhancements made after receiving positive, constructive feedback from JetBrains, specifically:
 
-* Adding **formal statistical testing**
+* Adding a formal statistical test to strengthen the conclusions, as a refinement suggested during feedback
 * Improving documentation clarity
 * Strengthening the analysis narrative
 
