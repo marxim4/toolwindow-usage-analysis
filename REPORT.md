@@ -59,22 +59,22 @@ For each user, events are processed in chronological order:
 
 * **Opened event**
 
-  * If no interval open → start new interval
-  * If interval already open → close previous implicitly, start new interval
+    * If no interval open → start new interval
+    * If interval already open → close previous implicitly, start new interval
 
 * **Closed event**
 
-  * If interval open → close it
-  * If no interval open → ignore (orphan close)
+    * If interval open → close it
+    * If no interval open → ignore (orphan close)
 
 * **End of dataset**
 
-  * Any still-open interval becomes **right-censored**
+    * Any still-open interval becomes **right-censored**
 
 Each interval contains:
 
 | Field          | Description                                          |
-| -------------- | ---------------------------------------------------- |
+|----------------|------------------------------------------------------|
 | user_id        | Interval owner                                       |
 | open_ts        | Timestamp of window opening                          |
 | close_ts       | Timestamp of window closing (may be NaN if censored) |
@@ -92,7 +92,7 @@ Only **completed** (non-censored) intervals with valid `open_type` are used for 
 ### Summary (from the provided dataset)
 
 | Metric          | Manual      | Auto         |
-| --------------- | ----------- | ------------ |
+|-----------------|-------------|--------------|
 | Count (n)       | 651         | 1180         |
 | Median duration | ~14 seconds | ~285 seconds |
 | Mean duration   | ~4.6M ms    | ~17.5M ms    |
@@ -109,7 +109,7 @@ Because interval durations are extremely right-skewed, durations were **log-tran
 ### Welch's t-test on log durations
 
 | Statistic   | Value                             |
-| ----------- | --------------------------------- |
+|-------------|-----------------------------------|
 | t-statistic | ≈ 19.33                           |
 | p-value     | ≈ 1.2 × 10⁻⁷³                     |
 | Effect size | mean(auto) ≈ **16×** mean(manual) |
@@ -128,12 +128,13 @@ Auto windows remain open approximately an *order of magnitude longer*.
 
 ## 6. Implicit-Close Transition Analysis
 
-Some intervals end not by the user closing the window, but because a new open event automatically closed the previous interval.
+Some intervals end not by the user closing the window, but because a new open event automatically closed the previous
+interval.
 
 A transition matrix shows what type of open followed an implicit close:
 
 | Previous → Next | Auto | Manual |
-| --------------- | ---- | ------ |
+|-----------------|------|--------|
 | **Auto**        | 170  | 10     |
 | **Manual**      | 25   | 4      |
 
@@ -149,23 +150,20 @@ A transition matrix shows what type of open followed an implicit close:
 
 The following figures were generated from the dataset:
 
-### • Count of Completed Intervals
+### 1. Count of Completed Intervals
+![plot_counts_by_open_type](plot_counts_by_open_type.png)
 
-`plot_counts_by_open_type.png`
+### 2. Duration Histogram (log-scale)
+![plot_hist_log_seconds](plot_hist_log_seconds.png)
 
-### • Duration Histogram (log-scale)
+### 3. ECDF Comparison (log-scale)
+![plot_ecdf_log_seconds](plot_ecdf_log_seconds.png)
 
-`plot_hist_log_seconds.png`
-
-### • ECDF Comparison (log-scale)
-
-`plot_ecdf_log_seconds.png`
-
-### • Log-scale Boxplot
-
-`plot_boxplot_log_seconds.png`
+### 4. Log-scale Boxplot
+![plot_boxplot_log_seconds](plot_boxplot_log_seconds.png)
 
 These visualizations clearly show that auto-opened intervals are longer and more variable.
+
 
 ---
 
@@ -202,10 +200,12 @@ If expanded into production research, next steps would include:
 
 ## 11. Notes on Feedback
 
-This project includes enhancements made after receiving positive, constructive feedback from JetBrains, specifically:
+Based on constructive feedback from JetBrains, this version includes several refinements that build on the original
+analysis:
 
-* Adding a formal statistical test to strengthen the conclusions, as a refinement suggested during feedback
-* Improving documentation clarity
-* Strengthening the analysis narrative
+- Adding a statistical validation step to complement the existing results
+- Improving documentation clarity
+- Strengthening the overall analysis narrative  
+
 
  
