@@ -1,0 +1,14 @@
+# virtualenv
+.venv/
+venv/
+
+# data
+toolwindow_data.csv
+*.csv
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
