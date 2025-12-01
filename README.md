@@ -122,7 +122,6 @@ Data is messy: orphan closes, repeated opens, missing closes, etc.
 - **Welch t-test** on log durations (statistical significance)
 - **Transition analysis** (what users open after an implicit close)
 - **Visualizations** (saved as PNGs)
-- **Optional synthetic example CSV**
 
 The real JetBrains dataset is **not included**, but the code and example data
 allow the full pipeline to be run.
