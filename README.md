@@ -7,9 +7,9 @@ or **automatically** (IDE-triggered event such as debugging or test failure).
 The project originated as a **technical take-home assignment** for the  
 **JetBrains “Analytics for Data Products – IDEs” internship**.
 
-After receiving feedback, this repository contains an **improved version** of
-the original solution, including additional **statistical testing**, cleaner
-documentation, and a more polished analysis pipeline.
+This repository extends my original submission with 
+additional statistical testing and improved documentation, 
+based on helpful feedback from JetBrains.
 
 ---
 
@@ -138,11 +138,11 @@ JetBrains provided helpful and constructive feedback:
 
 This improved version adds:
 
-- ✔ Welch’s t-test on log-transformed durations  
-- ✔ Effect-size estimation (auto/manual ratio)  
-- ✔ Clearer interval reconstruction docstrings  
-- ✔ Polished visualizations  
-- ✔ Expanded README with task summary and findings  
+-  Welch’s t-test on log-transformed durations  
+-  Effect-size estimation (auto/manual ratio)  
+-  Clearer interval reconstruction docstrings  
+-  Polished visualizations  
+-  Expanded README with task summary and findings  
 
 ---
 
@@ -168,7 +168,7 @@ This improved version adds:
 - Estimated mean ratio:  
   **Auto durations ≈ 16× longer than manual**
 
-➡ **Conclusion:**  
+**Conclusion:**  
 Auto-opened tool windows remain open **dramatically longer**, and the difference is **highly statistically significant**.
 
 ---
